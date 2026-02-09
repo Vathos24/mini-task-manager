@@ -11,3 +11,40 @@ task_manager/
 │   └── test_tasks.py
 └── requirements.txt
 
+ow To Run
+
+- Activate the virtual environment and start the server:
+  - Windows PowerShell:
+    - .venv\Scripts\python app.py
+  - Server runs at http://127.0.0.1:5000/
+Verified Endpoints
+
+- Health check: GET /health
+  - Returns: {"status":"ok"}
+- Login: POST /login with JSON body {"username":"admin","password":"password"}
+  - Returns: {"access_token":"..."} — use this for Authorization: Bearer <token/>
+- Create task: POST /tasks (JWT required)
+  - Body: {"title":"Demo task","status":"pending"}
+  - Returns created task with id/title/status
+- List tasks: GET /tasks?page=1&limit=10 (JWT required)
+  - Returns {"items":[...],"total":N}
+- Non-JSON POSTs are rejected with 415 due to middleware.
+- Invalid payloads on /tasks return 400 with validation details.
+Integration Notes
+
+- Base URL: http://127.0.0.1:5000
+- Auth flow:
+  - POST /login with credentials to get JWT
+  - Include header Authorization: Bearer <token> for protected endpoints</token>
+- CORS is enabled globally, so browser clients can call the API directly.
+- Pagination params for /tasks: page (default 1), limit (default 10)
+Key Files To Reference
+
+- App entry and config: app.py
+- Routes and endpoint logic: routes.py
+- Model: models.py
+- Validation schema: schemas.py
+- Middleware: middleware.py
+- Auth helper: auth.py
+- Cache config: cache.py
+- Dependencies: requirements.txt
