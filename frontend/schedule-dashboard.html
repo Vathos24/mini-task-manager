@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskPulse - Schedule Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#f3f4f6',
+                        foreground: '#18181b',
+                        primary: '#18181b',
+                        'primary-foreground': '#ffffff',
+                        muted: '#e5e7eb',
+                        'muted-foreground': '#6b7280',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for calendar if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground h-screen flex overflow-hidden font-sans antialiased" data-ray-id="1ums3m">
+
+    <!-- Sidebar -->
+    <aside class="w-64 flex-shrink-0 flex flex-col justify-between border-r border-gray-200/50 bg-[#f3f4f6] p-4 hidden md:flex" data-ray-id="hm3rv8">
+        <div data-ray-id="c5saxj">
+            <!-- Logo area -->
+            <div class="flex items-center justify-between mb-8 px-2" data-ray-id="6kaw32">
+                <div class="h-8 w-8 bg-primary rounded-lg flex items-center justify-center text-white" data-ray-id="i12501">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="eazpw6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" data-ray-id="wdbvef"/>
+                    </svg>
+                </div>
+                <button class="text-muted-foreground hover:text-foreground" data-ray-id="k03lci">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="wt0chz"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" data-ray-id="iuj04a"/></svg>
+                </button>
+            </div>
+
+            <!-- Main Menu -->
+            <div class="mb-8" data-ray-id="7swx55">
+                <h3 class="px-2 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3" data-ray-id="s4ihy6">Main menu</h3>
+                <nav class="space-y-1" data-ray-id="zk2eug">
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="jtzvvp">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="d44o4t"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" data-ray-id="g3pui8"/></svg>
+                        Overview
+                        <span class="ml-auto text-xs text-muted-foreground border border-gray-300 rounded px-1" data-ray-id="f6s3xv">⌘ M</span>
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="sit379">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="zhqicy"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" data-ray-id="vnhlq3"/></svg>
+                        Project Planning
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="bmsyww">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="t864vd"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" data-ray-id="twui1m"/></svg>
+                        Team Availability
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="i03kwx">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="j67mbz"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" data-ray-id="iprfop"/></svg>
+                        Milestones
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="uxt8m3">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="yrki3h"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" data-ray-id="lzfwou"/></svg>
+                        Task Management
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium bg-white text-foreground rounded-md shadow-sm group" data-ray-id="ylj6qn">
+                        <svg class="mr-3 h-5 w-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="fpercu"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" data-ray-id="tk1663"/></svg>
+                        Schedule
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="rolvyg">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="x93b4h"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" data-ray-id="sb9yei"/></svg>
+                        Team Members
+                    </a>
+                    <a href="#" class="flex items-center justify-between px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="8o85jz">
+                        <div class="flex items-center" data-ray-id="90mqfx">
+                            <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="nf6l8g"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" data-ray-id="xstz0d"/></svg>
+                            Messages
+                        </div>
+                        <span class="bg-primary text-primary-foreground text-xs font-bold px-1.5 py-0.5 rounded-full" data-ray-id="szzawr">5</span>
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="t7id0j">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="1dpfqq"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" data-ray-id="caaesw"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" data-ray-id="1vzq69"/></svg>
+                        Analytics
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="ptsuq6">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="t1qeup"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" data-ray-id="h0berr"/></svg>
+                        Reports
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Settings Menu -->
+            <div data-ray-id="nvswia">
+                <h3 class="px-2 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3" data-ray-id="kn7qu8">Settings and news</h3>
+                <nav class="space-y-1" data-ray-id="9kfn36">
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="pzeoky">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="omf6q5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 3.214L13 21l-2.286-6.857L5 12l5.714-3.214L13 3z" data-ray-id="cljufb"/></svg>
+                        Company News
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="oztx9h">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="pnyh2w"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" data-ray-id="6j25xk"/></svg>
+                        Team Events
+                    </a>
+                    <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="j2xj2d">
+                        <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="bnsfhh"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" data-ray-id="ulgg18"/></svg>
+                        What's New
+                    </a>
+                    <div class="mt-4 pt-4 border-t border-gray-200" data-ray-id="j68336">
+                        <a href="#" class="flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:text-foreground group" data-ray-id="qzii24">
+                            <svg class="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="pwyait"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" data-ray-id="is11a5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" data-ray-id="w55pgg"/></svg>
+                            Settings
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="mt-8" data-ray-id="u8z7ak">
+            <h3 class="px-2 text-xs font-medium text-muted-foreground mb-3" data-ray-id="6in6g9">Account</h3>
+            <div class="flex items-center px-2" data-ray-id="qfn53u">
+                <img class="h-9 w-9 rounded-full object-cover" src="https://brevityassets.brevity.workers.dev/designer/user-avatar-NVJnUzGwYFBa.png" alt="User avatar" data-ray-id="pmlsbl" />
+                <div class="ml-3" data-ray-id="wzki16">
+                    <p class="text-sm font-medium text-foreground" data-ray-id="jsugbn">Sarah Chen</p>
+                    <p class="text-xs text-muted-foreground" data-ray-id="1iu3ya">Product Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 bg-white m-3 rounded-2xl shadow-sm border border-gray-100 overflow-hidden" data-ray-id="nv1qyu">
+        
+        <!-- Header -->
+        <header class="flex-shrink-0 border-b border-gray-100 p-6 pb-2" data-ray-id="ifiidd">
+            <div class="flex justify-between items-center mb-6" data-ray-id="vk475g">
+                <div class="flex items-center text-sm text-muted-foreground" data-ray-id="ryre2r">
+                    <span data-ray-id="3i3grq">TaskPulse</span>
+                    <svg class="h-4 w-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="s5hdyf"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-ray-id="xedvkd"/></svg>
+                    <span class="font-medium text-foreground flex items-center" data-ray-id="nli184">
+                        <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="fwn0ev"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" data-ray-id="51llxw"/></svg>
+                        Schedule
+                    </span>
+                </div>
+                <div class="flex items-center space-x-3" data-ray-id="es9rek">
+                    <button class="p-2 text-muted-foreground hover:bg-gray-100 rounded-full border border-gray-200" data-ray-id="fhaibm">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="okvrmn"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" data-ray-id="dj72g9"/></svg>
+                    </button>
+                    <button class="p-2 text-muted-foreground hover:bg-gray-100 rounded-full border border-gray-200 relative" data-ray-id="whr4ea">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="euhxav"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.013 8.013 0 01-5.685-2.365C5.074 16.335 4.5 14.28 4.5 12c0-3.328 2.028-6.177 4.965-7.327A7.994 7.994 0 0121 12z" data-ray-id="no7v7v"/></svg>
+                        <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-orange-400 ring-2 ring-white" data-ray-id="86b9o0"></span>
+                    </button>
+                    <button class="p-2 text-muted-foreground hover:bg-gray-100 rounded-full border border-gray-200" data-ray-id="wv9q97">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="49kwni"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" data-ray-id="sm915h"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4" data-ray-id="jswce8">
+                <div class="flex items-center space-x-4" data-ray-id="ldgyqp">
+                    <h1 class="text-2xl font-bold text-foreground tracking-tight" data-ray-id="ttyhu2">08-14 May 2025</h1>
+                    <div class="hidden lg:flex items-center space-x-2" data-ray-id="f32oi1">
+                        <button class="px-3 py-1.5 bg-primary text-white text-sm font-medium rounded-full shadow-sm flex items-center" data-ray-id="t5cea2">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="z27ba5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" data-ray-id="l9i43z"/></svg>
+                            All
+                        </button>
+                        <button class="px-3 py-1.5 bg-gray-50 text-muted-foreground text-sm font-medium rounded-full hover:bg-gray-100 border border-transparent hover:border-gray-200 transition-colors" data-ray-id="avjacb">Design</button>
+                        <button class="px-3 py-1.5 bg-gray-50 text-muted-foreground text-sm font-medium rounded-full hover:bg-gray-100 border border-transparent hover:border-gray-200 transition-colors" data-ray-id="slwe6i">Dev</button>
+                        <button class="px-3 py-1.5 bg-gray-50 text-muted-foreground text-sm font-medium rounded-full hover:bg-gray-100 border border-transparent hover:border-gray-200 transition-colors" data-ray-id="pf836f">Product</button>
+                        <button class="px-3 py-1.5 bg-gray-50 text-muted-foreground text-sm font-medium rounded-full hover:bg-gray-100 border border-transparent hover:border-gray-200 transition-colors" data-ray-id="ursly7">Marketing</button>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3" data-ray-id="n1alvz">
+                    <div class="flex items-center text-sm font-medium text-muted-foreground mr-2" data-ray-id="qcn8q1">
+                        <span class="text-foreground flex items-center cursor-pointer hover:underline" data-ray-id="ubs8mn">
+                            This week 
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="i0nqoc"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-ray-id="qb1852"/></svg>
+                        </span>
+                        <span class="mx-3 text-gray-300" data-ray-id="dhtjh8">|</span>
+                        <span class="flex items-center cursor-pointer hover:text-foreground" data-ray-id="nv188w">
+                            All Team
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="fcz2aq"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-ray-id="hsucbl"/></svg>
+                        </span>
+                    </div>
+                    
+                    <button class="px-4 py-2 bg-white border border-gray-200 text-foreground text-sm font-medium rounded-full shadow-sm hover:bg-gray-50 flex items-center" data-ray-id="q0bgoa">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="junquh"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" data-ray-id="7qwj3y"/></svg>
+                        Filter
+                        <span class="ml-2 bg-black text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" data-ray-id="2942j0">3</span>
+                    </button>
+                    
+                    <button class="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-full shadow-lg hover:opacity-90 flex items-center transition-all" data-ray-id="kf6kwv">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="tmm63u"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="nqol37"/></svg>
+                        Add Task
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Calendar Grid -->
+        <div class="flex-1 overflow-y-auto no-scrollbar relative" data-ray-id="0g2jms">
+            <div class="min-w-[1000px] w-full h-full pb-20" data-ray-id="clp92k">
+                <!-- Grid Container -->
+                <div class="grid grid-cols-[80px_repeat(7,1fr)] divide-x divide-gray-100 border-b border-gray-100" data-ray-id="a2w1p9">
+                    
+                    <!-- Header Row -->
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center text-xs font-medium text-gray-400" data-ray-id="d1zfil">
+                        <!-- Empty corner -->
+                    </div>
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center" data-ray-id="qzoqqn">
+                        <span class="text-xs font-medium text-muted-foreground" data-ray-id="wo1sau">8 - Mon</span>
+                    </div>
+                    <div class="sticky top-0 bg-primary z-10 border-b border-primary p-3 text-center" data-ray-id="jq3x69">
+                        <span class="text-xs font-bold text-white" data-ray-id="3er6a8">9 - Tue</span>
+                    </div>
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center" data-ray-id="ddbd3z">
+                        <span class="text-xs font-medium text-muted-foreground" data-ray-id="52gjqa">10 - Wed</span>
+                    </div>
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center" data-ray-id="vxr158">
+                        <span class="text-xs font-medium text-muted-foreground" data-ray-id="wuf9sv">11 - Thur</span>
+                    </div>
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center" data-ray-id="pqahre">
+                        <span class="text-xs font-medium text-muted-foreground" data-ray-id="y81cs0">12 - Fri</span>
+                    </div>
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center" data-ray-id="o3gdjv">
+                        <span class="text-xs font-medium text-muted-foreground" data-ray-id="fexmj0">13 - Sat</span>
+                    </div>
+                    <div class="sticky top-0 bg-white z-10 border-b border-gray-100 p-3 text-center" data-ray-id="nx8ghn">
+                        <span class="text-xs font-medium text-muted-foreground" data-ray-id="lf5ais">14 - Sun</span>
+                    </div>
+
+                    <!-- Time Rows & Cells -->
+                    <!-- We will use a repeating pattern for rows or just one big grid. 
+                         For better control, let's use a single container with absolute positioning for events, 
+                         and grid lines for structure. -->
+                </div>
+                
+                <div class="relative grid grid-cols-[80px_repeat(7,1fr)] divide-x divide-gray-100" data-ray-id="h9q5ob">
+                    <!-- Background Grid Lines (Horizontal) -->
+                    <div class="col-span-8 absolute inset-0 pointer-events-none z-0 flex flex-col" data-ray-id="gq8309">
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="n9h7ng"></div> <!-- 09:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="aassqv"></div> <!-- 10:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="3xmlvs"></div> <!-- 11:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="hamxi3"></div> <!-- 12:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="4o6xa2"></div> <!-- 13:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="g18jbb"></div> <!-- 14:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="0vhasw"></div> <!-- 15:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="nceqxn"></div> <!-- 16:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="rivh70"></div> <!-- 17:00 -->
+                        <div class="flex-1 border-b border-dashed border-gray-100" data-ray-id="v79mnb"></div> <!-- 18:00 -->
+                    </div>
+
+                    <!-- Time Labels Column -->
+                    <div class="flex flex-col text-xs text-gray-400 font-medium bg-white z-10" data-ray-id="3m2sle">
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="cflqg7">09:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="9h4683">10:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="dvr0ss">11:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="0rke91">12:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="b8ej10">13:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="wp69ya">14:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="2awehj">15:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="ux804q">16:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2" data-ray-id="cm0pqw">17:00</div>
+                        <div class="h-24 flex items-start justify-center pt-2 border-b-0" data-ray-id="4pq2hv">18:00</div>
+                    </div>
+
+                    <!-- Columns for Days (Content) -->
+                    <!-- Monday -->
+                    <div class="relative h-[960px]" data-ray-id="ybymmu"> <!-- 10 hours * 96px (24px * 4) approx height per hour block -->
+                         <!-- Event: Weekly Sync -->
+                         <div class="absolute top-[24px] left-1 right-1 h-24 rounded-xl bg-purple-100 border border-purple-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" data-ray-id="dx6vh6">
+                            <div class="flex justify-between items-start" data-ray-id="jogvhq">
+                                <span class="text-[10px] font-bold text-purple-700" data-ray-id="1q3r77">Team Sync</span>
+                                <svg class="w-3 h-3 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="2c3t3n"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" data-ray-id="6snhe6"/></svg>
+                            </div>
+                            <span class="text-[10px] text-purple-600" data-ray-id="qfce21">09:15am - 10:15am</span>
+                        </div>
+                    </div>
+
+                    <!-- Tuesday (Current Day) -->
+                    <div class="relative h-[960px] bg-gray-50/30" data-ray-id="nq8tst">
+                        <!-- Current Time Line -->
+                        <div class="absolute top-[160px] left-0 right-0 border-t-2 border-black z-20 flex items-center" data-ray-id="gcuhty">
+                            <div class="bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded-r-md -mt-[1px] -ml-[1px]" data-ray-id="dvclzk">10:40</div>
+                            <div class="ml-auto mr-1 -mt-[14px]" data-ray-id="4indrr">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="6s7mvj"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" data-ray-id="mzoqt9"/></svg>
+                            </div>
+                        </div>
+
+                        <!-- Event 1: Sprint Planning -->
+                        <div class="absolute top-[0px] left-1 right-1 h-36 rounded-xl bg-sky-100 border border-sky-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer z-10" data-ray-id="i66g8n">
+                            <div class="flex justify-between items-start" data-ray-id="49h4d0">
+                                <span class="text-[10px] font-bold text-sky-700" data-ray-id="i8gugh">Sprint Planning</span>
+                                <svg class="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="9v8okj"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" data-ray-id="bdtibb"/></svg>
+                            </div>
+                            <span class="text-[10px] text-sky-600" data-ray-id="66dctm">09:00am - 10:30am</span>
+                        </div>
+
+                        <!-- Event 2: Design Review -->
+                        <div class="absolute top-[384px] left-1 right-1 h-24 rounded-xl bg-indigo-100 border border-indigo-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" data-ray-id="q8x9vc">
+                            <div class="flex justify-between items-start" data-ray-id="ptyqym">
+                                <span class="text-[10px] font-bold text-indigo-700" data-ray-id="q6to24">Design Review</span>
+                                <svg class="w-3 h-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="qksnxx"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" data-ray-id="4piiqf"/></svg>
+                            </div>
+                            <span class="text-[10px] text-indigo-600" data-ray-id="ad1scm">13:00pm - 14:00pm</span>
+                        </div>
+
+                        <!-- Event 3: Client Call -->
+                        <div class="absolute top-[480px] left-1 right-1 h-32 rounded-xl bg-orange-100 border border-orange-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" data-ray-id="itrzz2">
+                            <div class="flex justify-between items-start" data-ray-id="efw2e7">
+                                <span class="text-[10px] font-bold text-orange-700" data-ray-id="7m0l4t">Client Sync</span>
+                            </div>
+                            <div class="flex justify-between items-end" data-ray-id="jx09m5">
+                                <span class="text-[10px] text-orange-600" data-ray-id="1kl2ex">14:00pm - 15:20pm</span>
+                                <div class="bg-white/80 px-1.5 py-0.5 rounded text-[8px] font-medium text-orange-800 flex items-center shadow-sm" data-ray-id="57kpec">
+                                    <svg class="w-2 h-2 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" data-ray-id="cstk7n"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" data-ray-id="g5pl62"/></svg>
+                                    Confirmed
+                                </div>
+                            </div>
+                            <div class="absolute bottom-2 right-2" data-ray-id="ya5k6j">
+                                <svg class="w-3 h-3 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="5zi1mj"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" data-ray-id="nhar2o"/></svg>
+                            </div>
+                        </div>
+
+                        <!-- Edit Button at bottom -->
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2" data-ray-id="wmykzx">
+                            <button class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200 flex items-center justify-center transition-colors" data-ray-id="4x7k0m">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="iizh7f"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="rxt8s2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Wednesday -->
+                    <div class="relative h-[960px]" data-ray-id="rapff7">
+                        <!-- Event: Code Review -->
+                         <div class="absolute top-[96px] left-1 right-1 h-24 rounded-xl bg-purple-100 border border-purple-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" data-ray-id="kbb0m1">
+                            <div class="flex justify-between items-start" data-ray-id="8x46rd">
+                                <span class="text-[10px] font-bold text-purple-700" data-ray-id="bkv858">Code Review</span>
+                                <svg class="w-3 h-3 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="w056u9"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" data-ray-id="t56wjf"/></svg>
+                            </div>
+                            <span class="text-[10px] text-purple-600" data-ray-id="17plhd">10:00am - 11:00am</span>
+                        </div>
+
+                         <!-- Edit Button at bottom -->
+                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2" data-ray-id="50aonf">
+                            <button class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 flex items-center justify-center transition-colors" data-ray-id="nzxxk5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="yg6gna"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="rfnie3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Thursday -->
+                    <div class="relative h-[960px]" data-ray-id="gwgwfs">
+                        <!-- Event: Product Demo -->
+                        <div class="absolute top-[192px] left-1 right-1 h-24 rounded-xl bg-emerald-100 border border-emerald-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" data-ray-id="owuabf">
+                            <div class="flex justify-between items-start" data-ray-id="f38ba7">
+                                <span class="text-[10px] font-bold text-emerald-700" data-ray-id="f0xdti">Product Demo</span>
+                                <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="ca5wdg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" data-ray-id="o6ccmv"/></svg>
+                            </div>
+                            <span class="text-[10px] text-emerald-600" data-ray-id="y7tk91">11:00am - 12:00pm</span>
+                        </div>
+
+                         <!-- Event: Dev Sync -->
+                         <div class="absolute top-[384px] left-1 right-1 h-36 rounded-xl bg-sky-100 border border-sky-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer z-10" data-ray-id="oh7eyu">
+                            <div class="flex justify-between items-start" data-ray-id="iikxt5">
+                                <span class="text-[10px] font-bold text-sky-700" data-ray-id="jb92e3">Dev Sync</span>
+                                <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="jmp8wn"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" data-ray-id="3ft3xp"/></svg>
+                            </div>
+                            <div class="flex justify-between items-end" data-ray-id="g9q966">
+                                <span class="text-[10px] text-sky-600" data-ray-id="ptijbp">13:00pm - 14:30pm</span>
+                                <div class="bg-white/80 px-1.5 py-0.5 rounded text-[8px] font-medium text-sky-800 flex items-center shadow-sm" data-ray-id="in626v">
+                                    <svg class="w-2 h-2 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" data-ray-id="8a6pxv"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" data-ray-id="vs6czw"/></svg>
+                                    Remote
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Edit Button at bottom -->
+                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2" data-ray-id="eczv8m">
+                            <button class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 flex items-center justify-center transition-colors" data-ray-id="z7rtfu">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="hdqtjh"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="qm5j66"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Friday -->
+                    <div class="relative h-[960px]" data-ray-id="u0d1dw">
+                        <!-- Event: Weekly Retro -->
+                        <div class="absolute top-[480px] left-1 right-1 h-24 rounded-xl bg-orange-100 border border-orange-200 p-2 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" data-ray-id="zkeedq">
+                            <div class="flex justify-between items-start" data-ray-id="zvvsqw">
+                                <span class="text-[10px] font-bold text-orange-700" data-ray-id="ziqszy">Weekly Retro</span>
+                                <svg class="w-3 h-3 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="mmspdw"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" data-ray-id="lnydvv"/></svg>
+                            </div>
+                            <span class="text-[10px] text-orange-600" data-ray-id="fgkztp">14:00pm - 15:00pm</span>
+                        </div>
+                    </div>
+
+                    <!-- Saturday -->
+                    <div class="relative h-[960px]" data-ray-id="nyo4yt">
+                         <!-- Empty for weekend -->
+                    </div>
+
+                    <!-- Sunday -->
+                    <div class="relative h-[960px]" data-ray-id="e99wbj">
+                         <!-- Empty for weekend -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

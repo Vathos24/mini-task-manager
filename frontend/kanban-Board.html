@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskPulse - Kanban Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#f3f4f6',
+                        foreground: '#18181b',
+                        primary: '#18181b',
+                        'primary-foreground': '#ffffff',
+                        muted: '#e5e7eb',
+                        'muted-foreground': '#6b7280',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar for horizontal scrolling */
+        .kanban-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .kanban-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .kanban-container::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 4px;
+        }
+        .kanban-container::-webkit-scrollbar-thumb:hover {
+            background-color: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans antialiased h-screen flex overflow-hidden" data-ray-id="4xqslh">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col h-full flex-shrink-0 z-20" data-ray-id="bzjtbr">
+        <!-- Logo -->
+        <div class="p-6" data-ray-id="5hq79n">
+            <div class="flex items-center space-x-3" data-ray-id="c1f86g">
+                <div class="w-10 h-10 bg-primary text-primary-foreground rounded-xl flex items-center justify-center" data-ray-id="z4ma5h">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="r6vbr8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" data-ray-id="rcztot"/></svg>
+                </div>
+                <span class="font-bold text-lg tracking-tight" data-ray-id="lqf7g7">TaskPulse</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 space-y-1 overflow-y-auto" data-ray-id="mw7rf5">
+            <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2 mt-4" data-ray-id="rhr5rk">Main Menu</div>
+            
+            <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium text-muted-foreground rounded-lg hover:bg-gray-50 hover:text-foreground group transition-colors" data-ray-id="rpogrm">
+                <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="z0mymv"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" data-ray-id="sn9vc8"/></svg>
+                Overview
+            </a>
+
+            <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium text-foreground bg-gray-100 rounded-lg group transition-colors" data-ray-id="g4zxxt">
+                <svg class="w-5 h-5 mr-3 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="s3629g"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" data-ray-id="g01pst"/></svg>
+                Projects
+            </a>
+
+            <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium text-muted-foreground rounded-lg hover:bg-gray-50 hover:text-foreground group transition-colors" data-ray-id="6h0uxf">
+                <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="h0r4fn"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" data-ray-id="j01ci9"/></svg>
+                Team
+            </a>
+
+            <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium text-muted-foreground rounded-lg hover:bg-gray-50 hover:text-foreground group transition-colors" data-ray-id="xdedgd">
+                <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="8j16ip"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" data-ray-id="ibibr4"/></svg>
+                Calendar
+            </a>
+            
+            <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2 mt-8" data-ray-id="baqxv3">Workspace</div>
+
+            <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium text-muted-foreground rounded-lg hover:bg-gray-50 hover:text-foreground group transition-colors" data-ray-id="muaizd">
+                <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="nb7rvd"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-ray-id="aicmfm"/></svg>
+                Analytics
+            </a>
+            
+             <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium text-muted-foreground rounded-lg hover:bg-gray-50 hover:text-foreground group transition-colors" data-ray-id="6pzp8y">
+                <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="nm86fn"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" data-ray-id="hi8ta0"/></svg>
+                Messages
+                <span class="ml-auto bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-full" data-ray-id="go292y">3</span>
+            </a>
+        </nav>
+
+        <!-- User Profile -->
+        <div class="p-4 border-t border-gray-200" data-ray-id="pkh2v5">
+            <div class="flex items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors" data-ray-id="uv9x4j">
+                <img class="h-9 w-9 rounded-full object-cover" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Sarah Chen" data-ray-id="vxeo6n" />
+                <div class="ml-3" data-ray-id="tqqhcz">
+                    <p class="text-sm font-medium text-foreground" data-ray-id="5y1av7">Sarah Chen</p>
+                    <p class="text-xs text-muted-foreground" data-ray-id="ucrwst">Product Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-background" data-ray-id="scw2ju">
+        
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 px-8 py-5 flex items-center justify-between flex-shrink-0" data-ray-id="1awkjd">
+            <div data-ray-id="pd1ozw">
+                <div class="flex items-center space-x-2 text-sm text-muted-foreground mb-1" data-ray-id="73au2k">
+                    <span data-ray-id="htypic">Marketing</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="n5bm9m"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" data-ray-id="ampxvj"/></svg>
+                    <span data-ray-id="a9l6xm">Q2 Campaigns</span>
+                </div>
+                <h1 class="text-2xl font-bold text-foreground" data-ray-id="9x6ogg">Marketing Board</h1>
+            </div>
+
+            <div class="flex items-center space-x-4" data-ray-id="4qd82d">
+                <!-- View Switcher -->
+                <div class="flex items-center bg-gray-100 rounded-lg p-1" data-ray-id="8jjvgz">
+                    <button class="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-white transition-all" data-ray-id="ltnqnx">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="4bftdq"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" data-ray-id="wseoku"/></svg>
+                    </button>
+                    <button class="p-1.5 rounded bg-white shadow-sm text-foreground" data-ray-id="ueyobc">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="0xhj9j"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" data-ray-id="2fo8vw"/></svg>
+                    </button>
+                     <button class="p-1.5 rounded text-muted-foreground hover:text-foreground hover:bg-white transition-all" data-ray-id="2g8lhu">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="3qfp68"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" data-ray-id="q5b5bp"/></svg>
+                    </button>
+                </div>
+
+                <!-- Filter -->
+                <button class="flex items-center px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-foreground hover:bg-gray-50 transition-colors" data-ray-id="39bbiz">
+                    <svg class="w-4 h-4 mr-2 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="yy3nj4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" data-ray-id="y34sms"/></svg>
+                    Filter
+                </button>
+
+                <!-- Add Task Button -->
+                <button class="flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium shadow hover:opacity-90 transition-opacity" data-ray-id="xxr4kh">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="hm3giw"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="vuig05"/></svg>
+                    Add Task
+                </button>
+            </div>
+        </header>
+
+        <!-- Kanban Container -->
+        <div class="flex-1 overflow-x-auto overflow-y-hidden kanban-container bg-background" data-ray-id="n0v5dt">
+            <div class="h-full flex p-8 space-x-6 min-w-max" data-ray-id="0ht9qd">
+                
+                <!-- Column 1: Backlog -->
+                <div class="w-80 flex flex-col h-full" data-ray-id="nze4h3">
+                    <div class="flex items-center justify-between mb-4 px-1" data-ray-id="wm83yd">
+                        <h3 class="font-semibold text-foreground flex items-center" data-ray-id="xxhdl7">
+                            <span class="w-2 h-2 rounded-full bg-gray-400 mr-2" data-ray-id="bf5x71"></span>
+                            Backlog
+                            <span class="ml-2 bg-gray-200 text-muted-foreground text-xs px-2 py-0.5 rounded-full" data-ray-id="ewhx30">4</span>
+                        </h3>
+                        <button class="text-muted-foreground hover:text-foreground" data-ray-id="vi02u5"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="4vbn6a"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" data-ray-id="eds4es"/></svg></button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto pr-2 space-y-3 pb-4" data-ray-id="zzk85j">
+                        <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-grab" data-ray-id="naf5bq">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="426tn4">
+                                <span class="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="9zu2nj">Research</span>
+                                <button class="text-gray-300 hover:text-gray-500" data-ray-id="4vekaf"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="jzgw0v"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" data-ray-id="axbvw7"/></svg></button>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground mb-3 leading-snug" data-ray-id="dun9ty">Competitor analysis for Q3 launch</h4>
+                            <div class="flex items-center justify-between mt-4" data-ray-id="gvchr1">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="gdselb">
+                                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="a609uu" />
+                                </div>
+                                <div class="flex items-center text-xs text-muted-foreground" data-ray-id="ncna0b">
+                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="6ap87j"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" data-ray-id="irs7q5"/></svg>
+                                    Jun 12
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-grab" data-ray-id="yf694y">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="ul9qt0">
+                                <span class="bg-purple-50 text-purple-700 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="e83pi5">Design</span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground mb-3 leading-snug" data-ray-id="jgmlo4">Update brand guidelines icon set</h4>
+                            <div class="flex items-center justify-between mt-4" data-ray-id="ihbn65">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="tmdlb4">
+                                     <div class="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500 ring-2 ring-white" data-ray-id="vyb8mo">+2</div>
+                                </div>
+                                <div class="flex items-center text-xs text-muted-foreground" data-ray-id="3r3pxi">
+                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="ybwy1g"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" data-ray-id="qkv30v"/></svg>
+                                    3
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-grab" data-ray-id="7b4564">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="x7ggp3">
+                                <span class="bg-orange-50 text-orange-700 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="y9prsx">Strategy</span>
+                                 <span class="text-red-500" data-ray-id="mtk621"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="3a2xyf"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" data-ray-id="8tqam8"/></svg></span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground mb-3 leading-snug" data-ray-id="2a5zy9">Q4 Budget Planning Draft</h4>
+                            <div class="flex items-center justify-between mt-4" data-ray-id="cwxcfv">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="3v8ko0">
+                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="3g2mi9" />
+                                </div>
+                                <div class="flex items-center text-xs text-red-500 font-medium" data-ray-id="ve271u">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="c4253t"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" data-ray-id="spx9yl"/></svg>
+                                    Today
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: In Progress -->
+                <div class="w-80 flex flex-col h-full" data-ray-id="r8ro39">
+                    <div class="flex items-center justify-between mb-4 px-1" data-ray-id="klaz9n">
+                        <h3 class="font-semibold text-foreground flex items-center" data-ray-id="arilmd">
+                            <span class="w-2 h-2 rounded-full bg-blue-500 mr-2" data-ray-id="4akqpe"></span>
+                            In Progress
+                            <span class="ml-2 bg-gray-200 text-muted-foreground text-xs px-2 py-0.5 rounded-full" data-ray-id="plsxxl">2</span>
+                        </h3>
+                        <button class="text-muted-foreground hover:text-foreground" data-ray-id="cz5lwg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="cdxfom"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" data-ray-id="6dg3oc"/></svg></button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto pr-2 space-y-3 pb-4" data-ray-id="ig6478">
+                        <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-grab" data-ray-id="m8sis3">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="lrjl12">
+                                <span class="bg-green-50 text-green-700 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="xni6lw">Copywriting</span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground mb-3 leading-snug" data-ray-id="0lnudk">Draft newsletter content for July</h4>
+                            <div class="w-full bg-gray-100 rounded-full h-1.5 mb-3" data-ray-id="92ajcs">
+                                <div class="bg-blue-500 h-1.5 rounded-full" style="width: 45%" data-ray-id="6558ky"></div>
+                            </div>
+                            <div class="flex items-center justify-between mt-1" data-ray-id="eeen1e">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="qtrd4c">
+                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="s1umlb" />
+                                      <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="pd7s3m" />
+                                </div>
+                                <div class="flex items-center text-xs text-muted-foreground" data-ray-id="1aedhf">
+                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="5wr2xm"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" data-ray-id="k5t6sr"/></svg>
+                                    2
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-grab" data-ray-id="p8bby4">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="k6c53c">
+                                <span class="bg-purple-50 text-purple-700 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="nava13">Design</span>
+                                <span class="text-orange-500" data-ray-id="50qg8c"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="wri4wq"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" data-ray-id="mu0n86"/></svg></span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground mb-3 leading-snug" data-ray-id="fi49gd">Mobile app home screen refresh</h4>
+                            <div class="mb-3" data-ray-id="fzaxr8">
+                                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=80" class="w-full h-24 object-cover rounded-lg" alt="Preview" data-ray-id="7zq04i" />
+                            </div>
+                            <div class="flex items-center justify-between mt-1" data-ray-id="qe0igg">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="m033je">
+                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="shg39i" />
+                                </div>
+                                <div class="flex items-center text-xs text-muted-foreground" data-ray-id="9g7ixf">
+                                    Tomorrow
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Review -->
+                <div class="w-80 flex flex-col h-full" data-ray-id="1sjcoc">
+                    <div class="flex items-center justify-between mb-4 px-1" data-ray-id="kjpptv">
+                        <h3 class="font-semibold text-foreground flex items-center" data-ray-id="sjmnzm">
+                            <span class="w-2 h-2 rounded-full bg-orange-400 mr-2" data-ray-id="7qkkn6"></span>
+                            Review
+                            <span class="ml-2 bg-gray-200 text-muted-foreground text-xs px-2 py-0.5 rounded-full" data-ray-id="bqi1dk">3</span>
+                        </h3>
+                        <button class="text-muted-foreground hover:text-foreground" data-ray-id="s6zcge"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="6rxemn"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" data-ray-id="byll27"/></svg></button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto pr-2 space-y-3 pb-4" data-ray-id="xlluik">
+                        <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-grab" data-ray-id="lxeznu">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="8nb2p1">
+                                <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="2b2w5l">Analytics</span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground mb-3 leading-snug" data-ray-id="fyi34l">Weekly social media performance report</h4>
+                            <div class="flex items-center justify-between mt-4" data-ray-id="tlq7bt">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="7o5lvk">
+                                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="cnqynb" />
+                                </div>
+                                <div class="flex items-center text-xs text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded" data-ray-id="hu8lm6">
+                                    Pending Approval
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Column 4: Done -->
+                 <div class="w-80 flex flex-col h-full opacity-75 hover:opacity-100 transition-opacity" data-ray-id="pzobrn">
+                    <div class="flex items-center justify-between mb-4 px-1" data-ray-id="fl1wk3">
+                        <h3 class="font-semibold text-foreground flex items-center" data-ray-id="dtbpcj">
+                            <span class="w-2 h-2 rounded-full bg-green-500 mr-2" data-ray-id="0ogis6"></span>
+                            Done
+                            <span class="ml-2 bg-gray-200 text-muted-foreground text-xs px-2 py-0.5 rounded-full" data-ray-id="718zsb">12</span>
+                        </h3>
+                        <button class="text-muted-foreground hover:text-foreground" data-ray-id="xawjub"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="90j6sr"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" data-ray-id="td9q54"/></svg></button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto pr-2 space-y-3 pb-4" data-ray-id="fbfdsd">
+                        <!-- Card -->
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100" data-ray-id="zwhak8">
+                            <div class="flex justify-between items-start mb-2" data-ray-id="1souts">
+                                <span class="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-md font-medium" data-ray-id="4oug5n">Research</span>
+                                <span class="text-green-500" data-ray-id="adhg98"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="luzn9u"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" data-ray-id="bygccz"/></svg></span>
+                            </div>
+                            <h4 class="text-sm font-semibold text-foreground/60 line-through decoration-gray-400 mb-3 leading-snug" data-ray-id="9tc6uu">Kickoff meeting slides</h4>
+                             <div class="flex items-center justify-between mt-4" data-ray-id="2g1mu2">
+                                <div class="flex -space-x-2 overflow-hidden" data-ray-id="1s630c">
+                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white grayscale opacity-60" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="sek94j" />
+                                </div>
+                                <div class="flex items-center text-xs text-muted-foreground" data-ray-id="jfd04r">
+                                    May 10
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Add Column -->
+                <div class="w-80 flex flex-col h-full" data-ray-id="7nnc5i">
+                    <button class="flex items-center justify-center w-full py-3 rounded-xl border-2 border-dashed border-gray-200 text-muted-foreground hover:border-gray-300 hover:text-foreground hover:bg-gray-50 transition-all font-medium text-sm" data-ray-id="yd56oq">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="wr8v5x"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="bg8b82"/></svg>
+                        Add Column
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

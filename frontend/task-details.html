@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskPulse - Task Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#f3f4f6',
+                        foreground: '#18181b',
+                        primary: '#18181b',
+                        'primary-foreground': '#ffffff',
+                        muted: '#e5e7eb',
+                        'muted-foreground': '#6b7280',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-foreground font-sans antialiased h-screen flex overflow-hidden relative" data-ray-id="p91cl5">
+
+    <!-- Blurred Background (Simulated Kanban Board) -->
+    <div class="absolute inset-0 filter blur-sm opacity-50 z-0 pointer-events-none" data-ray-id="3a185u">
+        <!-- Reusing parts of the Kanban layout for context -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col h-full absolute left-0 top-0" data-ray-id="ekmucn">
+             <div class="p-6 border-b border-gray-100" data-ray-id="xvrxmb"><span class="font-bold text-lg" data-ray-id="wabmop">TaskPulse</span></div>
+        </aside>
+        <header class="ml-64 bg-white border-b border-gray-200 h-16 w-full absolute top-0" data-ray-id="8alfaz"></header>
+        <main class="ml-64 mt-16 p-8 grid grid-cols-4 gap-6 h-full bg-gray-50" data-ray-id="hcix86">
+            <div class="bg-gray-200/50 rounded-xl h-96" data-ray-id="r82t5d"></div>
+            <div class="bg-gray-200/50 rounded-xl h-96" data-ray-id="xencis"></div>
+            <div class="bg-gray-200/50 rounded-xl h-96" data-ray-id="06xy0b"></div>
+            <div class="bg-gray-200/50 rounded-xl h-96" data-ray-id="hox5mu"></div>
+        </main>
+    </div>
+
+    <!-- Overlay/Modal Container -->
+    <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto" data-ray-id="ur1ss3">
+        
+        <!-- Modal Content -->
+        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200" data-ray-id="hhibnl">
+            
+            <!-- Header -->
+            <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-start" data-ray-id="2lqdef">
+                <div class="flex-1" data-ray-id="pnv8ov">
+                    <div class="flex items-center space-x-2 text-sm text-muted-foreground mb-3" data-ray-id="onlg7p">
+                        <span class="bg-gray-100 px-2 py-0.5 rounded text-xs font-medium text-gray-600" data-ray-id="gfe6nf">Marketing</span>
+                        <span data-ray-id="ligy9y">/</span>
+                        <span data-ray-id="yh4tvj">In Progress</span>
+                        <span data-ray-id="ate3k5">/</span>
+                        <span class="text-foreground font-medium" data-ray-id="rrjbc8">TASK-124</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-foreground leading-tight" data-ray-id="0tzxrb">Draft newsletter content for July Campaign</h2>
+                </div>
+                <div class="flex items-center space-x-2 ml-4" data-ray-id="2iq1pi">
+                    <button class="p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg transition-colors" data-ray-id="zkkybt">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="p36kjf"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" data-ray-id="8pgkmi"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" data-ray-id="r5m22g"/></svg>
+                    </button>
+                    <button class="p-2 text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg transition-colors" data-ray-id="ovz1f1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="gst25c"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" data-ray-id="vu5mpc"/></svg>
+                    </button>
+                    <button class="p-2 text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-2" data-ray-id="zi0434">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="vj9gqm"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" data-ray-id="0hpdzi"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row h-full overflow-hidden" data-ray-id="7s6tqd">
+                
+                <!-- Main Content (Left) -->
+                <div class="flex-1 overflow-y-auto p-8 space-y-8" data-ray-id="kegwon">
+                    
+                    <!-- Description -->
+                    <section data-ray-id="lmk8eh">
+                        <h3 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3" data-ray-id="nl9uvh">Description</h3>
+                        <div class="prose prose-sm max-w-none text-foreground" data-ray-id="pt02da">
+                            <p data-ray-id="3s95qo">We need to finalize the content for the upcoming July newsletter. The focus should be on the new "Team Sync" feature launch.</p>
+                            <p class="mt-2" data-ray-id="vca425"><strong data-ray-id="ugfmrn">Key points to cover:</strong></p>
+                            <ul class="list-disc pl-5 mt-1 space-y-1" data-ray-id="a72bn1">
+                                <li data-ray-id="5jaymr">Introduction to the feature</li>
+                                <li data-ray-id="b4xz8d">Use cases for remote teams</li>
+                                <li data-ray-id="ck918h">Call to action (Try it now)</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Subtasks -->
+                    <section data-ray-id="m4t209">
+                        <div class="flex items-center justify-between mb-3" data-ray-id="allc72">
+                            <h3 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider" data-ray-id="bgccqf">Subtasks</h3>
+                            <span class="text-xs font-medium text-muted-foreground" data-ray-id="3v4jwc">2/4 completed</span>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-gray-100 rounded-full h-1.5 mb-4" data-ray-id="k9s92x">
+                            <div class="bg-green-500 h-1.5 rounded-full transition-all duration-500" style="width: 50%" data-ray-id="stkg7y"></div>
+                        </div>
+
+                        <div class="space-y-2" data-ray-id="lisd1a">
+                            <label class="flex items-center p-3 hover:bg-gray-50 rounded-lg border border-transparent hover:border-gray-100 transition-colors cursor-pointer group" data-ray-id="hes2re">
+                                <input type="checkbox" checked class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary/20" data-ray-id="hmdsyy" />
+                                <span class="ml-3 text-sm text-gray-400 line-through group-hover:text-gray-500 transition-colors" data-ray-id="2p6rqp">Draft initial copy</span>
+                            </label>
+                            <label class="flex items-center p-3 hover:bg-gray-50 rounded-lg border border-transparent hover:border-gray-100 transition-colors cursor-pointer group" data-ray-id="snsg44">
+                                <input type="checkbox" checked class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary/20" data-ray-id="vjpy7c" />
+                                <span class="ml-3 text-sm text-gray-400 line-through group-hover:text-gray-500 transition-colors" data-ray-id="kgu28r">Review with product team</span>
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" class="w-5 h-5 rounded-full ml-auto opacity-50" data-ray-id="dmzs3m" />
+                            </label>
+                            <label class="flex items-center p-3 hover:bg-gray-50 rounded-lg border border-transparent hover:border-gray-100 transition-colors cursor-pointer group" data-ray-id="6xula1">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary/20" data-ray-id="0xtiw4" />
+                                <span class="ml-3 text-sm text-foreground group-hover:text-primary transition-colors" data-ray-id="ht155m">Create header graphics</span>
+                            </label>
+                            <label class="flex items-center p-3 hover:bg-gray-50 rounded-lg border border-transparent hover:border-gray-100 transition-colors cursor-pointer group" data-ray-id="as7t4c">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary/20" data-ray-id="hvzind" />
+                                <span class="ml-3 text-sm text-foreground group-hover:text-primary transition-colors" data-ray-id="1y7j6z">Final proofreading</span>
+                            </label>
+                            <button class="flex items-center text-sm text-muted-foreground hover:text-primary mt-2 ml-3" data-ray-id="7mjaia">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="2av971"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="eq7ax5"/></svg>
+                                Add subtask
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Attachments -->
+                    <section data-ray-id="0jnznw">
+                         <h3 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3" data-ray-id="8xaven">Attachments</h3>
+                         <div class="grid grid-cols-2 gap-4" data-ray-id="tf77vm">
+                             <!-- File 1 -->
+                             <div class="flex items-center p-3 border border-gray-200 rounded-xl hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group" data-ray-id="c0ifw8">
+                                 <div class="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center flex-shrink-0" data-ray-id="7gnckb">
+                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="1s105n"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" data-ray-id="2jo7v4"/></svg>
+                                 </div>
+                                 <div class="ml-3 overflow-hidden" data-ray-id="jsb2js">
+                                     <p class="text-sm font-medium text-foreground truncate group-hover:text-primary" data-ray-id="e12bpq">Brand_Guidelines_V2.pdf</p>
+                                     <p class="text-xs text-muted-foreground" data-ray-id="qbis49">2.4 MB • Added yesterday</p>
+                                 </div>
+                             </div>
+                             <!-- File 2 -->
+                             <div class="flex items-center p-3 border border-dashed border-gray-300 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer justify-center text-muted-foreground hover:text-foreground" data-ray-id="yss0i7">
+                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="2y2ldp"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" data-ray-id="zwqfur"/></svg>
+                                 <span class="text-sm font-medium" data-ray-id="sk33l1">Upload file</span>
+                             </div>
+                         </div>
+                    </section>
+
+                    <!-- Activity -->
+                    <section data-ray-id="eiu78o">
+                         <h3 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4" data-ray-id="qo28f0">Activity</h3>
+                         <div class="space-y-6" data-ray-id="x9qzov">
+                             <!-- Comment -->
+                             <div class="flex space-x-3" data-ray-id="5dgock">
+                                 <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="uvsuir" />
+                                 <div class="flex-1" data-ray-id="w0qovl">
+                                     <div class="bg-gray-50 rounded-xl rounded-tl-none p-3 text-sm text-foreground" data-ray-id="6ugjzo">
+                                         <p data-ray-id="xviid1"><span class="font-semibold text-gray-900" data-ray-id="yygwgn">Alex</span> Can we make sure to include the new dark mode screenshots?</p>
+                                     </div>
+                                     <div class="mt-1 ml-1 text-xs text-muted-foreground flex items-center space-x-2" data-ray-id="1bvau3">
+                                         <span data-ray-id="igjfma">2 hours ago</span>
+                                         <button class="hover:text-foreground" data-ray-id="lxccna">Reply</button>
+                                     </div>
+                                 </div>
+                             </div>
+                             
+                             <!-- Input -->
+                             <div class="flex space-x-3" data-ray-id="ok3olb">
+                                 <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Sarah Chen" data-ray-id="uqwhl2" />
+                                 <div class="flex-1 relative" data-ray-id="cwbkz2">
+                                     <textarea rows="2" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none" placeholder="Write a comment..." data-ray-id="kngz8o"></textarea>
+                                     <div class="absolute bottom-2 right-2 flex items-center space-x-2" data-ray-id="cgqgcp">
+                                         <button class="text-muted-foreground hover:text-foreground" data-ray-id="4xot32"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="dqmsoh"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" data-ray-id="z3x052"/></svg></button>
+                                         <button class="bg-primary text-primary-foreground rounded-lg p-1 hover:opacity-90" data-ray-id="rm6h05"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="svujvi"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" data-ray-id="vdl4i6"/></svg></button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar (Right) -->
+                <aside class="w-full lg:w-72 bg-gray-50 border-l border-gray-200 p-6 flex flex-col space-y-6" data-ray-id="jk0chu">
+                    
+                    <!-- Status -->
+                    <div data-ray-id="kj5cx1">
+                        <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 block" data-ray-id="be8wdp">Status</label>
+                        <button class="w-full flex items-center justify-between px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors" data-ray-id="gae477">
+                            <div class="flex items-center" data-ray-id="a7nrid">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500 mr-2" data-ray-id="uo7x0b"></span>
+                                <span class="text-sm font-medium text-foreground" data-ray-id="gsepp0">In Progress</span>
+                            </div>
+                            <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="jvziy7"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-ray-id="ujs2ua"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Assignees -->
+                    <div data-ray-id="253axj">
+                         <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 block" data-ray-id="x0z5b5">Assignees</label>
+                         <div class="flex items-center space-x-2" data-ray-id="t3i7mh">
+                             <div class="flex -space-x-2 overflow-hidden" data-ray-id="dphmit">
+                                 <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="3rlt4l" />
+                                 <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt data-ray-id="xpvl89" />
+                             </div>
+                             <button class="w-8 h-8 rounded-full border border-dashed border-gray-300 flex items-center justify-center text-muted-foreground hover:border-gray-400 hover:text-foreground hover:bg-white transition-all" data-ray-id="az6mfj">
+                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="th03nt"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" data-ray-id="wevjnd"/></svg>
+                             </button>
+                         </div>
+                    </div>
+
+                     <!-- Due Date -->
+                    <div data-ray-id="qifkbo">
+                        <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 block" data-ray-id="m0mt2o">Due Date</label>
+                        <button class="w-full flex items-center px-3 py-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors group" data-ray-id="me4oi0">
+                            <svg class="w-4 h-4 mr-2 text-gray-400 group-hover:text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="ki6bpk"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" data-ray-id="4u18uv"/></svg>
+                            <span class="text-sm text-foreground" data-ray-id="f9hn66">Jun 24, 2024</span>
+                        </button>
+                    </div>
+
+                    <!-- Priority -->
+                    <div data-ray-id="m0exeb">
+                        <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 block" data-ray-id="edd2fl">Priority</label>
+                        <div class="flex items-center space-x-2" data-ray-id="x9xy4k">
+                            <span class="px-2 py-1 bg-red-50 text-red-600 text-xs font-medium rounded-md border border-red-100 flex items-center" data-ray-id="infv4u">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="2kxgot"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" data-ray-id="yan5jm"/></svg>
+                                High
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div data-ray-id="al0cj2">
+                         <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 block" data-ray-id="p4z9h5">Tags</label>
+                         <div class="flex flex-wrap gap-2" data-ray-id="vpq0k3">
+                             <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-md border border-green-100" data-ray-id="qv1oc0">Copywriting</span>
+                             <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-md border border-gray-200 hover:bg-gray-200 cursor-pointer transition-colors" data-ray-id="3si7b5">+ Add</span>
+                         </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-4" data-ray-id="pqyf3c"></div>
+
+                    <!-- Actions -->
+                    <div class="space-y-2" data-ray-id="tknwzd">
+                         <button class="w-full flex items-center px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg transition-colors" data-ray-id="05mqfp">
+                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="t2l67a"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" data-ray-id="gulrtv"/></svg>
+                             Copy Link
+                         </button>
+                         <button class="w-full flex items-center px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-gray-100 rounded-lg transition-colors" data-ray-id="9cj3w8">
+                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-ray-id="kj7cwc"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" data-ray-id="jnxr7w"/></svg>
+                             Archive Task
+                         </button>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
