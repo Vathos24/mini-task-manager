@@ -346,6 +346,114 @@
         </div>
 
     </main>
+<script>
+    const API_BASE_URL = 'http://localhost:5000';
 
+    // Check authentication
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '/login-page.html';
+    }
+
+    // Add click handlers for navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle "Add Task" button
+        const addTaskBtn = document.querySelector('button:contains("Add Task")');
+        if (addTaskBtn) {
+            addTaskBtn.addEventListener('click', function() {
+                window.location.href = '/task.modal.html';
+            });
+        }
+
+        // Handle task card clicks
+        const taskCards = document.querySelectorAll('[class*="cursor-grab"]');
+        taskCards.forEach((card, index) => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('button')) { // Don't open if clicking menu button
+                    window.location.href = `/task-details.html?id=${index + 1}`;
+                }
+            });
+        });
+
+        // Handle logout
+        const logoutLinks = document.querySelectorAll('a[href="#"]');
+        logoutLinks.forEach(link => {
+            if (link.textContent.includes('Settings')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = '/login-page.html';
+                });
+            }
+        });
+
+        // Fetch tasks from backend
+        fetchTasks();
+    });
+
+    async function fetchTasks() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/tasks?limit=50`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                updateBoardWithTasks(data.items);
+            } else if (response.status === 401) {
+                // Token expired
+                localStorage.removeItem('token');
+                window.location.href = '/login-page.html';
+            }
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
+    }
+
+    function updateBoardWithTasks(tasks) {
+        // Group tasks by status
+        const columns = {
+            'backlog': [],
+            'in_progress': [],
+            'review': [],
+            'done': []
+        };
+
+        tasks.forEach(task => {
+            if (columns[task.status]) {
+                columns[task.status].push(task);
+            } else {
+                columns['backlog'].push(task);
+            }
+        });
+
+        // Update column counts
+        document.querySelectorAll('[class*="rounded-full"]').forEach(el => {
+            const parent = el.closest('h3');
+            if (parent) {
+                const status = parent.textContent.trim().split(' ')[0].toLowerCase();
+                if (columns[status]) {
+                    el.textContent = columns[status].length;
+                }
+            }
+        });
+
+        // Here you would dynamically create task cards
+        console.log('Tasks loaded:', tasks);
+    }
+
+    // Helper function for :contains selector
+    document.querySelectorAll = function(selector) {
+        const elements = document.querySelectorAll(selector);
+        if (selector.includes(':contains')) {
+            const text = selector.match(/:contains\("(.+?)"\)/)[1];
+            return Array.from(elements).filter(el => el.textContent.includes(text));
+        }
+        return elements;
+    };
+</script>
 </body>
 </html>

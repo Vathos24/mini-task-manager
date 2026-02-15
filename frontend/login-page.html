@@ -119,6 +119,64 @@
             </div>
         </div>
     </div>
+<script>
+    // API base URL - change this to your Flask server URL
+    const API_BASE_URL = 'http://localhost:5000';
 
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.querySelector('form');
+        const googleBtn = document.querySelector('button:has(svg)');
+        const emailInput = document.querySelector('input[type="email"]');
+        const passwordInput = document.querySelector('input[type="password"]');
+        const signInBtn = document.querySelector('button[type="button"]');
+
+        // Handle email login
+        signInBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store token and user data
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Redirect to kanban board
+                    window.location.href = '/kanban-board.html';
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Connection error. Please try again.');
+            }
+        });
+
+        // Handle Google login (mock for now)
+        googleBtn.addEventListener('click', function() {
+            alert('Google login would redirect to OAuth provider');
+        });
+    });
+</script>
 </body>
 </html>
