@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskPulse - Overview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-background text-foreground font-sans antialiased min-h-screen">
+  <header class="bg-white border-b border-gray-200 h-16 flex items-center px-6">
+    <h1 class="text-lg font-semibold">Overview</h1>
+    <div class="ml-auto">
+      <a href="/kanban-Board.html" class="text-sm text-muted-foreground hover:text-foreground">Back to Kanban</a>
+    </div>
+  </header>
+  <main class="p-6 space-y-6">
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Total Tasks</div>
+        <div id="ov-total" class="text-2xl font-bold mt-1">0</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Overdue</div>
+        <div id="ov-overdue" class="text-2xl font-bold mt-1">0</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Done</div>
+        <div id="ov-done" class="text-2xl font-bold mt-1">0</div>
+      </div>
+    </section>
+    <section class="bg-white rounded-xl shadow-sm border border-gray-200">
+      <div class="px-4 py-3 border-b border-gray-100 font-medium">Latest Tasks</div>
+      <div id="ov-latest" class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+    </section>
+  </main>
+  <script>
+    const API_BASE_URL = 'http://127.0.0.1:5000';
+    const token = localStorage.getItem('token');
+    if (!token) { window.location.href = '/login-page.html'; }
+    async function loadOverview(){
+      const res = await fetch(`${API_BASE_URL}/api/overview`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { if (res.status===401){ localStorage.removeItem('token'); location.href='/login-page.html'; } return; }
+      const data = await res.json();
+      document.getElementById('ov-total').textContent = data.summary?.total ?? 0;
+      document.getElementById('ov-overdue').textContent = data.summary?.overdue ?? 0;
+      const doneRes = await fetch(`${API_BASE_URL}/api/analytics`, { headers: { Authorization: `Bearer ${token}` } });
+      if (doneRes.ok) {
+        const a = await doneRes.json();
+        document.getElementById('ov-done').textContent = a.by_status?.done ?? 0;
+      }
+      const wrap = document.getElementById('ov-latest');
+      (data.latest || []).forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'border border-gray-200 rounded-lg p-3 hover:shadow-sm transition';
+        const title = document.createElement('div');
+        title.className = 'text-sm font-semibold';
+        title.textContent = t.title;
+        const meta = document.createElement('div');
+        meta.className = 'text-xs text-muted-foreground mt-1';
+        meta.textContent = `${t.status} • ${t.priority} • ${t.due_date || ''}`;
+        card.appendChild(title);
+        card.appendChild(meta);
+        card.addEventListener('click', () => { location.href = `/task-details.html?id=${t.id}`; });
+        wrap.appendChild(card);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', loadOverview);
+  </script>
+</body>
+</html>

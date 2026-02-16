@@ -7,6 +7,7 @@ from backend.cache import cache
 from backend.auth import login as auth_login
 from marshmallow import ValidationError
 from backend.utils import handle_list_fields, paginate
+from datetime import datetime
 import json
 import os
 
@@ -215,4 +216,55 @@ def register_routes(app):
         return jsonify({
             'total_tasks': total_tasks,
             'by_status': tasks_by_status
+        })
+
+    @app.get('/api/overview')
+    @jwt_required()
+    @cache.cached(timeout=60)
+    def get_overview():
+        total = Task.query.count()
+        latest = Task.query.order_by(Task.created_at.desc()).limit(5).all()
+        overdue = Task.query.filter(Task.due_date != None).count()
+        return jsonify({
+            'summary': {
+                'total': total,
+                'overdue': overdue
+            },
+            'latest': [t.to_dict() for t in latest]
+        })
+
+    @app.get('/api/team')
+    @jwt_required()
+    @cache.cached(timeout=120)
+    def get_team():
+        team = [
+            {'name': 'Sarah Chen', 'role': 'Product Manager', 'availability': '9-17'},
+            {'name': 'Alex Johnson', 'role': 'Designer', 'availability': '10-18'},
+            {'name': 'Michael Lee', 'role': 'Developer', 'availability': '8-16'},
+            {'name': 'Priya Patel', 'role': 'QA', 'availability': '9-17'}
+        ]
+        return jsonify({'members': team})
+
+    @app.get('/api/analytics')
+    @jwt_required()
+    @cache.cached(timeout=60)
+    def get_analytics():
+        total = Task.query.count()
+        weekly = Task.query.filter(Task.created_at >= datetime.utcnow()).count()
+        status = {
+            'backlog': Task.query.filter_by(status='backlog').count(),
+            'in_progress': Task.query.filter_by(status='in_progress').count(),
+            'review': Task.query.filter_by(status='review').count(),
+            'done': Task.query.filter_by(status='done').count()
+        }
+        priorities = {
+            'high': Task.query.filter_by(priority='high').count(),
+            'medium': Task.query.filter_by(priority='medium').count(),
+            'low': Task.query.filter_by(priority='low').count()
+        }
+        return jsonify({
+            'total': total,
+            'weekly_created': weekly,
+            'by_status': status,
+            'by_priority': priorities
         })

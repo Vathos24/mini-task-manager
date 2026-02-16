@@ -1,8 +1,15 @@
 from backend.db import db
 from datetime import datetime
+import json
 
 class Task(db.Model):
     __tablename__ = "tasks"
+    __table_args__ = (
+        db.Index('idx_tasks_status', 'status'),
+        db.Index('idx_tasks_project', 'project'),
+        db.Index('idx_tasks_priority', 'priority'),
+        db.Index('idx_tasks_created_at', 'created_at'),
+    )
     
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
@@ -34,9 +41,9 @@ class Task(db.Model):
             "project": self.project,
             "labels": self.labels.split(',') if self.labels else [],
             "assignees": self.assignees.split(',') if self.assignees else [],
-            "attachments": eval(self.attachments) if self.attachments else [],
-            "comments": eval(self.comments) if self.comments else [],
-            "subtasks": eval(self.subtasks) if self.subtasks else [],
+            "attachments": json.loads(self.attachments) if self.attachments else [],
+            "comments": json.loads(self.comments) if self.comments else [],
+            "subtasks": json.loads(self.subtasks) if self.subtasks else [],
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None
         }

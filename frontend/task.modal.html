@@ -183,4 +183,71 @@
     </div>
 
 </body>
+<script>
+const API_BASE_URL = 'http://127.0.0.1:5000';
+const token = localStorage.getItem('token');
+if (!token) {
+  window.location.href = '/login-page.html';
+}
+function getPriority() {
+  const radios = document.querySelectorAll('input[name="priority"]');
+  const idx = Array.from(radios).findIndex(r => r.checked);
+  return idx === 0 ? 'high' : idx === 2 ? 'low' : 'medium';
+}
+function getProject() {
+  const sel = document.querySelector('select');
+  return sel ? sel.value : null;
+}
+function getDueDate() {
+  const input = document.querySelector('input[placeholder="Select date"]');
+  return input ? input.value : null;
+}
+function getTimes() {
+  const t = document.querySelectorAll('input[text-center]');
+  const inputs = document.querySelectorAll('input');
+  const times = Array.from(inputs).filter(i => i.value && i.className.includes('text-center'));
+  const start = times[0] ? times[0].value : null;
+  const end = times[1] ? times[1].value : null;
+  return { start, end };
+}
+async function createTask() {
+  const titleEl = document.getElementById('title');
+  const descEl = document.getElementById('description');
+  const body = {
+    title: titleEl ? titleEl.value : '',
+    description: descEl ? descEl.value : '',
+    priority: getPriority(),
+    project: getProject(),
+    due_date: getDueDate(),
+    start_time: getTimes().start,
+    end_time: getTimes().end,
+    status: 'backlog',
+    labels: [],
+    assignees: []
+  };
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(body)
+    });
+    if (res.ok) {
+      window.location.href = '/kanban-Board.html';
+    } else if (res.status === 401) {
+      localStorage.removeItem('token'); window.location.href = '/login-page.html';
+    } else {
+      let msg = 'Failed to create task';
+      try { const j = await res.json(); msg = j.error || JSON.stringify(j); } catch {}
+      alert(msg);
+    }
+  } catch (e) {
+    alert('Network error while creating task');
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const btns = Array.from(document.querySelectorAll('button')).filter(b => b.textContent.trim().toLowerCase().includes('create task'));
+  if (btns[0]) btns[0].addEventListener('click', (e) => { e.preventDefault(); createTask(); });
+});
+</script>
+</body>
 </html>

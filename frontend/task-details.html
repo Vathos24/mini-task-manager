@@ -263,4 +263,66 @@
     </div>
 
 </body>
+</body>
+<script>
+const API_BASE_URL = 'http://127.0.0.1:5000';
+const token = localStorage.getItem('token');
+if (!token) {
+  window.location.href = '/login-page.html';
+}
+function qs(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+function setNavLinks() {
+  document.querySelectorAll('a').forEach(a => {
+    const t = a.textContent.trim().toLowerCase();
+    if (t.includes('taskpulse')) a.href = '/kanban-Board.html';
+  });
+}
+function fillTask(task) {
+  const titleEl = document.querySelector('h2.text-2xl');
+  if (titleEl) titleEl.textContent = task.title || titleEl.textContent;
+  const statusEl = Array.from(document.querySelectorAll('span')).find(s => s.textContent.trim().toLowerCase() === 'in progress' || s.textContent.trim().toLowerCase() === 'backlog' || s.textContent.trim().toLowerCase() === 'review' || s.textContent.trim().toLowerCase() === 'done');
+  if (statusEl) statusEl.textContent = task.status;
+  const descP = Array.from(document.querySelectorAll('section .prose p'))[0];
+  if (descP) descP.textContent = task.description || descP.textContent;
+  const dueSpan = Array.from(document.querySelectorAll('span')).find(s => s.textContent.includes('Jun') || s.textContent.includes('May') || s.textContent.includes('202'));
+  if (dueSpan && task.due_date) dueSpan.textContent = task.due_date;
+}
+async function loadTask() {
+  const id = qs('id');
+  if (!id) return;
+  const res = await fetch(`${API_BASE_URL}/api/tasks/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+  if (res.ok) {
+    const data = await res.json();
+    fillTask(data);
+  } else if (res.status === 401) {
+    localStorage.removeItem('token'); window.location.href = '/login-page.html';
+  }
+}
+document.addEventListener('DOMContentLoaded', () => { setNavLinks(); loadTask(); });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const id = new URLSearchParams(location.search).get('id');
+  const delBtn = Array.from(document.querySelectorAll('button')).find(b => b.className.includes('hover:text-red-600'));
+  if (delBtn && id) {
+    delBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const ok = confirm('Delete this task?');
+      if (!ok) return;
+      const res = await fetch(`http://127.0.0.1:5000/api/tasks/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        window.location.href = '/kanban-Board.html';
+      }
+    });
+  }
+});
+</script>
+</html>
 </html>

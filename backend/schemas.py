@@ -3,17 +3,17 @@ from marshmallow import Schema, fields, validate, pre_load
 class TaskSchema(Schema):
     title = fields.Str(required=True, validate=validate.Length(min=1, max=255))
     description = fields.Str(allow_none=True)
-    status = fields.Str(validate=validate.OneOf(["backlog", "in_progress", "review", "done"]), missing="backlog")
-    priority = fields.Str(validate=validate.OneOf(["high", "medium", "low"]), missing="medium")
+    status = fields.Str(validate=validate.OneOf(["backlog", "in_progress", "review", "done"]))
+    priority = fields.Str(validate=validate.OneOf(["high", "medium", "low"]))
     due_date = fields.Str(allow_none=True)
     start_time = fields.Str(allow_none=True)
     end_time = fields.Str(allow_none=True)
     project = fields.Str(allow_none=True)
-    labels = fields.List(fields.Str(), missing=[])
-    assignees = fields.List(fields.Str(), missing=[])
-    attachments = fields.List(fields.Dict(), missing=[])
-    comments = fields.List(fields.Dict(), missing=[])
-    subtasks = fields.List(fields.Dict(), missing=[])
+    labels = fields.List(fields.Str())
+    assignees = fields.List(fields.Str())
+    attachments = fields.List(fields.Dict())
+    comments = fields.List(fields.Dict())
+    subtasks = fields.List(fields.Dict())
     
     @pre_load
     def process_lists(self, data, **kwargs):
@@ -26,4 +26,10 @@ class TaskSchema(Schema):
                     data[field] = json.loads(data[field])
                 except:
                     data[field] = []
+            elif field not in data or data[field] is None:
+                data[field] = []
+        if 'status' not in data or data['status'] is None:
+            data['status'] = 'backlog'
+        if 'priority' not in data or data['priority'] is None:
+            data['priority'] = 'medium'
         return data

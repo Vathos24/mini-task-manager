@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskPulse - Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-background text-foreground font-sans antialiased min-h-screen">
+  <header class="bg-white border-b border-gray-200 h-16 flex items-center px-6">
+    <h1 class="text-lg font-semibold">Analytics</h1>
+    <div class="ml-auto">
+      <a href="/kanban-Board.html" class="text-sm text-muted-foreground hover:text-foreground">Back to Kanban</a>
+    </div>
+  </header>
+  <main class="p-6 space-y-6">
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Total</div>
+        <div id="an-total" class="text-2xl font-bold mt-1">0</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Weekly Created</div>
+        <div id="an-weekly" class="text-2xl font-bold mt-1">0</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Backlog</div>
+        <div id="an-backlog" class="text-2xl font-bold mt-1">0</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-xs text-muted-foreground">Done</div>
+        <div id="an-done" class="text-2xl font-bold mt-1">0</div>
+      </div>
+    </section>
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-sm font-medium mb-2">By Status</div>
+        <ul id="an-status" class="space-y-2 text-sm"></ul>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="text-sm font-medium mb-2">By Priority</div>
+        <ul id="an-priority" class="space-y-2 text-sm"></ul>
+      </div>
+    </section>
+  </main>
+  <script>
+    const API_BASE_URL = 'http://127.0.0.1:5000';
+    const token = localStorage.getItem('token');
+    if (!token) { window.location.href = '/login-page.html'; }
+    function li(label, value){
+      const el = document.createElement('li');
+      el.className = 'flex items-center justify-between';
+      const l = document.createElement('span'); l.textContent = label;
+      const v = document.createElement('span'); v.className = 'font-semibold'; v.textContent = value;
+      el.appendChild(l); el.appendChild(v); return el;
+    }
+    async function loadAnalytics(){
+      const res = await fetch(`${API_BASE_URL}/api/analytics`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { if (res.status===401){ localStorage.removeItem('token'); location.href='/login-page.html'; } return; }
+      const data = await res.json();
+      document.getElementById('an-total').textContent = data.total ?? 0;
+      document.getElementById('an-weekly').textContent = data.weekly_created ?? 0;
+      document.getElementById('an-backlog').textContent = data.by_status?.backlog ?? 0;
+      document.getElementById('an-done').textContent = data.by_status?.done ?? 0;
+      const s = document.getElementById('an-status');
+      const p = document.getElementById('an-priority');
+      s.innerHTML = ''; p.innerHTML = '';
+      const status = data.by_status || {};
+      const priority = data.by_priority || {};
+      Object.keys(status).forEach(k => s.appendChild(li(k, status[k])));
+      Object.keys(priority).forEach(k => p.appendChild(li(k, priority[k])));
+    }
+    document.addEventListener('DOMContentLoaded', loadAnalytics);
+  </script>
+</body>
+</html>

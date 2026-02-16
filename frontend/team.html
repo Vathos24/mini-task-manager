@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskPulse - Team</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-background text-foreground font-sans antialiased min-h-screen">
+  <header class="bg-white border-b border-gray-200 h-16 flex items-center px-6">
+    <h1 class="text-lg font-semibold">Team</h1>
+    <div class="ml-auto">
+      <a href="/schedule-dashboard.html" class="text-sm text-muted-foreground hover:text-foreground">Back to Schedule</a>
+    </div>
+  </header>
+  <main class="p-6">
+    <div id="team-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </main>
+  <script>
+    const API_BASE_URL = 'http://127.0.0.1:5000';
+    const token = localStorage.getItem('token');
+    if (!token) { window.location.href = '/login-page.html'; }
+    async function loadTeam(){
+      const res = await fetch(`${API_BASE_URL}/api/team`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { if (res.status===401){ localStorage.removeItem('token'); location.href='/login-page.html'; } return; }
+      const data = await res.json();
+      const wrap = document.getElementById('team-list');
+      (data.members || []).forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-xl shadow-sm border border-gray-200 p-4';
+        const name = document.createElement('div');
+        name.className = 'text-sm font-semibold';
+        name.textContent = m.name;
+        const role = document.createElement('div');
+        role.className = 'text-xs text-muted-foreground';
+        role.textContent = m.role;
+        const avail = document.createElement('div');
+        avail.className = 'text-xs mt-1';
+        avail.textContent = `Availability: ${m.availability}`;
+        card.appendChild(name);
+        card.appendChild(role);
+        card.appendChild(avail);
+        wrap.appendChild(card);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', loadTeam);
+  </script>
+</body>
+</html>
